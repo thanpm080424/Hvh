@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H&H Coffee — Tuy An Nam, Đắk Lắk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --soil: #3a2418;       /* đất bazan đậm */
+    --soil-2: #5c3824;     /* đất bazan nhạt */
+    --cherry: #a8332a;     /* quả cà phê chín */
+    --cream: #f3ead9;      /* kem sữa */
+    --paper: #faf5ea;
+    --leaf: #6e7d4f;       /* lá cà phê */
+    --ink: #261a12;
+    --line: rgba(38,26,18,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3, .display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:rgba(250,245,234,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .logo{font-family:'Fraunces',serif; font-size:1.25rem; font-weight:600; display:flex; align-items:center; gap:8px;}
+  .logo span{color:var(--cherry);}
+  .navlinks{display:flex; gap:32px; font-size:0.92rem;}
+  .navlinks a{position:relative; padding:4px 0; opacity:0.85;}
+  .navlinks a:hover{opacity:1;}
+  .navlinks a::after{
+    content:''; position:absolute; bottom:-2px; left:0; width:0; height:1.5px;
+    background:var(--cherry); transition:width .25s ease;
+  }
+  .navlinks a:hover::after{width:100%;}
+  .nav-cta{
+    background:var(--soil); color:var(--paper); padding:9px 18px;
+    border-radius:100px; font-size:0.85rem; font-weight:500;
+  }
+  .hamburger{display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none;}
+  .hamburger span{width:22px; height:2px; background:var(--ink); display:block;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex; align-items:flex-end;
+    padding-top:72px;
+    background:
+      radial-gradient(ellipse at 70% 20%, rgba(168,51,42,0.10), transparent 55%),
+      linear-gradient(180deg, var(--cream) 0%, var(--paper) 70%);
+    overflow:hidden;
+  }
+  .contour{
+    position:absolute; inset:0; z-index:0; opacity:0.5;
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative; z-index:2; width:100%;
+    padding-bottom:80px;
+  }
+  .eyebrow{
+    font-size:0.78rem; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--cherry); font-weight:600; margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:24px; height:1px; background:var(--cherry);}
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 5.2rem);
+    line-height:0.98;
+    color:var(--soil);
+    max-width:14ch;
+  }
+  .hero h1 em{
+    font-style:italic; color:var(--cherry);
+  }
+  .hero-sub{
+    margin-top:24px; max-width:480px; font-size:1.05rem; color:var(--soil-2);
+  }
+  .hero-meta{
+    margin-top:40px; display:flex; gap:40px; flex-wrap:wrap;
+  }
+  .meta-item .num{font-family:'Fraunces',serif; font-size:1.6rem; color:var(--soil); display:block;}
+  .meta-item .lab{font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; opacity:0.65;}
+  .hero-cta{
+    margin-top:40px; display:flex; gap:16px; flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 26px; border-radius:100px; font-weight:500; font-size:0.95rem;
+    border:1px solid var(--soil); transition:all .2s ease;
+  }
+  .btn-solid{background:var(--soil); color:var(--paper);}
+  .btn-solid:hover{background:var(--cherry); border-color:var(--cherry);}
+  .btn-line{color:var(--soil);}
+  .btn-line:hover{background:var(--soil); color:var(--paper);}
+
+  /* ---------- SECTION SHARED ---------- */
+  section{padding:110px 0;}
+  .sec-head{margin-bottom:56px; max-width:560px;}
+  .sec-eyebrow{
+    font-size:0.78rem; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--cherry); font-weight:600; margin-bottom:14px;
+  }
+  .sec-head h2{font-size:clamp(1.8rem,4vw,2.6rem); color:var(--soil);}
+
+  /* ---------- ABOUT ---------- */
+  .about{background:var(--soil); color:var(--cream);}
+  .about .sec-head h2{color:var(--cream);}
+  .about-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; align-items:start;
+  }
+  .about p{font-size:1.05rem; color:rgba(243,234,217,0.85); max-width:46ch;}
+  .about p + p{margin-top:18px;}
+  .about-stats{
+    display:flex; flex-direction:column; gap:0;
+    border-top:1px solid rgba(243,234,217,0.18);
+  }
+  .stat-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:22px 0; border-bottom:1px solid rgba(243,234,217,0.18);
+  }
+  .stat-row .label{font-size:0.92rem; color:rgba(243,234,217,0.7);}
+  .stat-row .value{font-family:'Fraunces',serif; font-size:1.5rem; color:var(--cream);}
+
+  /* ---------- MENU ---------- */
+  .menu-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line);
+  }
+  .menu-card{
+    background:var(--paper); padding:36px;
+    transition:background .25s ease;
+  }
+  .menu-card:hover{background:var(--cream);}
+  .menu-card .tag{
+    font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--leaf); font-weight:600; margin-bottom:10px; display:block;
+  }
+  .menu-card h3{font-size:1.4rem; color:var(--soil); margin-bottom:10px;}
+  .menu-list{list-style:none; display:flex; flex-direction:column; gap:10px;}
+  .menu-list li{
+    display:flex; justify-content:space-between; gap:12px;
+    font-size:0.96rem; padding-bottom:10px; border-bottom:1px dashed var(--line);
+    color:var(--soil-2);
+  }
+  .menu-list li:last-child{border-bottom:none; padding-bottom:0;}
+  .menu-list .price{color:var(--cherry); font-weight:600; white-space:nowrap;}
+
+  /* ---------- HOURS / INFO STRIP ---------- */
+  .info{
+    background:var(--cream);
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .info-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:48px;
+  }
+  .info-block h3{font-size:1.1rem; color:var(--soil); margin-bottom:14px;}
+  .hours-row{display:flex; justify-content:space-between; font-size:0.92rem; padding:6px 0; color:var(--soil-2);}
+  .hours-row span:last-child{color:var(--soil); font-weight:500;}
+
+  /* ---------- REVIEWS ---------- */
+  .reviews-track{
+    display:flex; gap:24px; overflow-x:auto; padding-bottom:8px;
+    scrollbar-width:none;
+  }
+  .reviews-track::-webkit-scrollbar{display:none;}
+  .review-card{
+    flex:0 0 300px; background:var(--paper); border:1px solid var(--line);
+    border-radius:4px; padding:28px;
+  }
+  .review-card .stars{color:var(--cherry); font-size:0.9rem; margin-bottom:14px; letter-spacing:2px;}
+  .review-card p{font-size:0.95rem; color:var(--soil-2); font-style:italic;}
+
+  /* ---------- LOCATION / CTA ---------- */
+  .location{background:var(--soil); color:var(--cream);}
+  .location .sec-head h2{color:var(--cream);}
+  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;}
+  .loc-info{display:flex; flex-direction:column; gap:22px;}
+  .loc-row{display:flex; gap:16px; align-items:flex-start;}
+  .loc-row .ic{
+    width:38px; height:38px; border-radius:50%; border:1px solid rgba(243,234,217,0.35);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.1rem;
+  }
+  .loc-row .t{font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(243,234,217,0.6); margin-bottom:4px;}
+  .loc-row .d{color:var(--cream); font-size:1rem;}
+  .map-frame{
+    border:1px solid rgba(243,234,217,0.25); border-radius:6px; overflow:hidden; height:340px;
+  }
+  .map-frame iframe{width:100%; height:100%; border:0; filter:saturate(0.9);}
+
+  footer{
+    background:var(--ink); color:rgba(243,234,217,0.55);
+    padding:32px 0; text-align:center; font-size:0.85rem;
+  }
+  footer b{color:var(--cream);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .navlinks{display:none;}
+    .hamburger{display:flex;}
+    .about-grid, .loc-grid{grid-template-columns:1fr; gap:36px;}
+    .menu-grid{grid-template-columns:1fr;}
+    .info-grid{grid-template-columns:1fr; gap:32px;}
+    section{padding:72px 0;}
+    .hero{align-items:flex-end;}
+    .hero-inner{padding-bottom:56px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+  :focus-visible{outline:2px solid var(--cherry); outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">H&amp;H <span>Coffee</span></div>
+    <div class="navlinks">
+      <a href="#about">Câu chuyện</a>
+      <a href="#menu">Thực đơn</a>
+      <a href="#info">Giờ mở cửa</a>
+      <a href="#reviews">Đánh giá</a>
+      <a href="#location">Đường đi</a>
+    </div>
+    <a class="nav-cta" href="tel:+84962338679">Gọi đặt chỗ</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <svg class="contour" viewBox="0 0 1080 700" preserveAspectRatio="none">
+    <path d="M-50 600 Q 200 500 400 580 T 900 540 T 1200 600" stroke="#5c3824" stroke-width="1" fill="none" opacity="0.25"/>
+    <path d="M-50 550 Q 220 460 420 530 T 920 480 T 1200 540" stroke="#5c3824" stroke-width="1" fill="none" opacity="0.2"/>
+    <path d="M-50 500 Q 240 420 440 480 T 940 420 T 1200 480" stroke="#5c3824" stroke-width="1" fill="none" opacity="0.16"/>
+    <path d="M-50 450 Q 260 380 460 430 T 960 360 T 1200 420" stroke="#5c3824" stroke-width="1" fill="none" opacity="0.12"/>
+  </svg>
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Tuy An Nam · Đắk Lắk</div>
+    <h1>Cà phê giữa<br>đất đỏ <em>bazan</em></h1>
+    <p class="hero-sub">Quán cà phê ven đường trên cung đường đến Trúc Lâm Thiền Viện — không gian thoáng đãng, thực đơn đa dạng, giá cả phải chăng, mở cửa từ tinh mơ đến tối muộn.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="num">4.4</span><span class="lab">/5 đánh giá</span></div>
+      <div class="meta-item"><span class="num">05:00</span><span class="lab">mở cửa mỗi ngày</span></div>
+      <div class="meta-item"><span class="num">49+</span><span class="lab">lượt nhận xét</span></div>
+    </div>
+    <div class="hero-cta">
+      <a class="btn btn-solid" href="#location">Xem đường đi</a>
+      <a class="btn btn-line" href="tel:+84962338679">0962 338 679</a>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="sec-eyebrow">Câu chuyện quán</div>
+      <h2>Ghé chân giữa hành trình lên cao nguyên</h2>
+      <p>H&amp;H Coffee nằm ngay ven đường ở Tuy An Nam, là điểm dừng quen thuộc của người dân địa phương lẫn khách phương xa trên đường ghé thăm Trúc Lâm Thiền Viện. Không gian thoáng, mở cửa sớm, phù hợp cho một tách cà phê đầu ngày hay một buổi tối ngồi lại trò chuyện.</p>
+      <p>Chủ quán và nhân viên thân thiện, thực đơn đa dạng từ cà phê phin truyền thống đến các loại nước giải khát, giá cả hợp lý cho mọi đối tượng khách.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-row"><span class="label">Loại hình</span><span class="value">Coffee shop ven đường</span></div>
+      <div class="stat-row"><span class="label">Không gian</span><span class="value">Thoáng, ngoài trời</span></div>
+      <div class="stat-row"><span class="label">Giờ mở sớm nhất</span><span class="value">05:00 sáng</span></div>
+      <div class="stat-row"><span class="label">Phù hợp</span><span class="value">Gia đình · Bạn bè · Khách qua đường</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Thực đơn</div>
+      <h2>Chọn một ly, ngồi lại đôi chút</h2>
+    </div>
+  </div>
+  <div class="wrap" style="padding:0 28px;">
+    <div class="menu-grid">
+      <div class="menu-card">
+        <span class="tag">Cà phê</span>
+        <h3>Phin truyền thống</h3>
+        <ul class="menu-list">
+          <li><span>Cà phê đen đá</span><span class="price">18.000đ</span></li>
+          <li><span>Cà phê sữa đá</span><span class="price">20.000đ</span></li>
+          <li><span>Bạc xỉu</span><span class="price">22.000đ</span></li>
+          <li><span>Cà phê muối</span><span class="price">25.000đ</span></li>
+        </ul>
+      </div>
+      <div class="menu-card">
+        <span class="tag">Đá xay &amp; Espresso</span>
+        <h3>Hiện đại</h3>
+        <ul class="menu-list">
+          <li><span>Cappuccino</span><span class="price">28.000đ</span></li>
+          <li><span>Cà phê cốt dừa</span><span class="price">28.000đ</span></li>
+          <li><span>Matcha đá xay</span><span class="price">30.000đ</span></li>
+          <li><span>Choco đá xay</span><span class="price">30.000đ</span></li>
+        </ul>
+      </div>
+      <div class="menu-card">
+        <span class="tag">Giải khát</span>
+        <h3>Trà &amp; Trái cây</h3>
+        <ul class="menu-list">
+          <li><span>Trà đào cam sả</span><span class="price">25.000đ</span></li>
+          <li><span>Trà tắc</span><span class="price">18.000đ</span></li>
+          <li><span>Sinh tố bơ</span><span class="price">28.000đ</span></li>
+          <li><span>Nước ép thơm</span><span class="price">22.000đ</span></li>
+        </ul>
+      </div>
+      <div class="menu-card">
+        <span class="tag">Ăn nhẹ</span>
+        <h3>Dùng kèm</h3>
+        <ul class="menu-list">
+          <li><span>Bánh flan</span><span class="price">15.000đ</span></li>
+          <li><span>Hướng dương / hạt dưa</span><span class="price">10.000đ</span></li>
+          <li><span>Mì gói trứng</span><span class="price">20.000đ</span></li>
+          <li><span>Bánh mì chảo</span><span class="price">25.000đ</span></li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:24px; font-size:0.85rem; color:var(--soil-2); opacity:0.7;">* Giá tham khảo, vui lòng liên hệ quán để cập nhật mới nhất.</p>
+  </div>
+</section>
+
+<section class="info" id="info">
+  <div class="wrap info-grid">
+    <div class="info-block">
+      <h3>Giờ mở cửa</h3>
+      <div class="hours-row"><span>Thứ Hai</span><span>05:30 – 22:30</span></div>
+      <div class="hours-row"><span>Thứ Ba – Thứ Bảy</span><span>05:00 – 22:00</span></div>
+      <div class="hours-row"><span>Chủ Nhật</span><span>05:30 – 22:00</span></div>
+    </div>
+    <div class="info-block">
+      <h3>Liên hệ</h3>
+      <div class="hours-row"><span>Điện thoại</span><span>0962 338 679</span></div>
+      <div class="hours-row"><span>Khu vực</span><span>Tuy An Nam</span></div>
+      <div class="hours-row"><span>Tỉnh</span><span>Đắk Lắk</span></div>
+    </div>
+    <div class="info-block">
+      <h3>Vì sao ghé H&amp;H</h3>
+      <div class="hours-row"><span colspan="2">Thực đơn đa dạng, giá phải chăng, không gian thoáng đãng — điểm dừng lý tưởng trên đường tới Trúc Lâm Thiền Viện.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Khách nói gì</div>
+      <h2>4.4 ★ trên 49 lượt đánh giá</h2>
+    </div>
+    <div class="reviews-track">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"Nhân viên và quản lý thân thiện. Cà phê ngon."</p>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"Quán nằm ở Hòa Đa, thực đơn đa dạng, giá cả phải chăng."</p>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"Quán ven đường trên đường tới Trúc Lâm Thiền Viện, giá rất hợp lý, không gian thoáng đãng và dễ chịu."</p>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★☆</div>
+        <p>"Ngon, đáng để ghé khi đi ngang qua."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="location" id="location">
+  <div class="wrap loc-grid">
+    <div>
+      <div class="sec-eyebrow">Đường đi</div>
+      <h2>Ghé H&amp;H Coffee</h2>
+      <div class="loc-info" style="margin-top:32px;">
+        <div class="loc-row">
+          <div class="ic">📍</div>
+          <div><div class="t">Địa chỉ</div><div class="d">Tuy An Nam, Đắk Lắk, Việt Nam</div></div>
+        </div>
+        <div class="loc-row">
+          <div class="ic">☎</div>
+          <div><div class="t">Điện thoại</div><div class="d"><a href="tel:+84962338679">0962 338 679</a></div></div>
+        </div>
+        <div class="loc-row">
+          <div class="ic">🕐</div>
+          <div><div class="t">Mở cửa hôm nay</div><div class="d">05:00 – 22:00</div></div>
+        </div>
+        <a class="btn btn-line" style="margin-top:8px; align-self:flex-start;" href="https://maps.app.goo.gl/dWcwBtbKkuat9qDi6" target="_blank" rel="noopener">Mở Google Maps →</a>
+      </div>
+    </div>
+    <div class="map-frame">
+      <iframe loading="lazy" src="https://www.google.com/maps?q=13.2032757,109.2728889&z=16&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><b>H&amp;H Coffee</b> — Tuy An Nam, Đắk Lắk · Mở cửa mỗi ngày từ 05:00</div>
+</footer>
+
+</body>
+</html>

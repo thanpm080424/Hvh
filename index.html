@@ -148,9 +148,11 @@
 
   /* ---------- MENU ---------- */
   .menu-grid{
-    display:grid; grid-template-columns:repeat(2,1fr); gap:1px;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
     background:var(--line); border:1px solid var(--line);
   }
+  @media (max-width:1000px){ .menu-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .menu-grid{grid-template-columns:1fr;} }
   .menu-card{
     background:var(--paper); padding:36px;
     transition:background .25s ease;
@@ -302,47 +304,102 @@
   <div class="wrap" style="padding:0 28px;">
     <div class="menu-grid">
       <div class="menu-card">
-        <span class="tag">Cà phê</span>
-        <h3>Phin truyền thống</h3>
+        <span class="tag">Coffee</span>
+        <h3>Cà phê</h3>
         <ul class="menu-list">
-          <li><span>Cà phê đen đá</span><span class="price">18.000đ</span></li>
-          <li><span>Cà phê sữa đá</span><span class="price">20.000đ</span></li>
-          <li><span>Bạc xỉu</span><span class="price">22.000đ</span></li>
-          <li><span>Cà phê muối</span><span class="price">25.000đ</span></li>
+          <li><span>Cà phê đen Sài Gòn</span><span class="price">15.000đ</span></li>
+          <li><span>Cà phê sữa Sài Gòn</span><span class="price">17.000đ</span></li>
+          <li><span>Cà phê đen phin</span><span class="price">15.000đ</span></li>
+          <li><span>Cà phê sữa phin</span><span class="price">17.000đ</span></li>
+          <li><span>Cà phê đen Ý</span><span class="price">15.000đ</span></li>
+          <li><span>Cà phê sữa Ý</span><span class="price">17.000đ</span></li>
+          <li><span>Cà phê muối</span><span class="price">22.000đ</span></li>
+          <li><span>Bạc xỉu (lạnh/nóng)</span><span class="price">22.000đ</span></li>
+          <li><span>Cacao (lạnh/nóng)</span><span class="price">25.000đ</span></li>
+          <li><span>Sữa (đá/nóng)</span><span class="price">16.000đ</span></li>
         </ul>
       </div>
       <div class="menu-card">
-        <span class="tag">Đá xay &amp; Espresso</span>
-        <h3>Hiện đại</h3>
+        <span class="tag">Yogurt</span>
+        <h3>Sữa chua</h3>
         <ul class="menu-list">
-          <li><span>Cappuccino</span><span class="price">28.000đ</span></li>
-          <li><span>Cà phê cốt dừa</span><span class="price">28.000đ</span></li>
-          <li><span>Matcha đá xay</span><span class="price">30.000đ</span></li>
-          <li><span>Choco đá xay</span><span class="price">30.000đ</span></li>
+          <li><span>Sữa chua đá</span><span class="price">15.000đ</span></li>
+          <li><span>Sữa chua việt quất</span><span class="price">25.000đ</span></li>
+          <li><span>Sữa chua hạt đát</span><span class="price">25.000đ</span></li>
+          <li><span>Sữa chua Oreo</span><span class="price">25.000đ</span></li>
         </ul>
       </div>
       <div class="menu-card">
-        <span class="tag">Giải khát</span>
-        <h3>Trà &amp; Trái cây</h3>
+        <span class="tag">Sparkling drink</span>
+        <h3>Soda</h3>
         <ul class="menu-list">
-          <li><span>Trà đào cam sả</span><span class="price">25.000đ</span></li>
-          <li><span>Trà tắc</span><span class="price">18.000đ</span></li>
-          <li><span>Sinh tố bơ</span><span class="price">28.000đ</span></li>
-          <li><span>Nước ép thơm</span><span class="price">22.000đ</span></li>
+          <li><span>Soda dâu</span><span class="price">20.000đ</span></li>
+          <li><span>Soda việt quất</span><span class="price">20.000đ</span></li>
+          <li><span>Soda chanh</span><span class="price">20.000đ</span></li>
         </ul>
       </div>
       <div class="menu-card">
-        <span class="tag">Ăn nhẹ</span>
-        <h3>Dùng kèm</h3>
+        <span class="tag">Blended ice</span>
+        <h3>Đá xay</h3>
         <ul class="menu-list">
-          <li><span>Bánh flan</span><span class="price">15.000đ</span></li>
-          <li><span>Hướng dương / hạt dưa</span><span class="price">10.000đ</span></li>
-          <li><span>Mì gói trứng</span><span class="price">20.000đ</span></li>
-          <li><span>Bánh mì chảo</span><span class="price">25.000đ</span></li>
+          <li><span>Matcha đá xay</span><span class="price">28.000đ</span></li>
+          <li><span>Socola đá xay</span><span class="price">28.000đ</span></li>
+          <li><span>Cookie đá xay</span><span class="price">28.000đ</span></li>
+          <li><span>Matcha latte</span><span class="price">25.000đ</span></li>
+        </ul>
+      </div>
+      <div class="menu-card">
+        <span class="tag">Tea</span>
+        <h3>Trà</h3>
+        <ul class="menu-list">
+          <li><span>Chanh xí muội</span><span class="price">22.000đ</span></li>
+          <li><span>Trà trái cây</span><span class="price">22.000đ</span></li>
+          <li><span>Trà đào</span><span class="price">22.000đ</span></li>
+          <li><span>Trà gừng</span><span class="price">25.000đ</span></li>
+          <li><span>Trà vải</span><span class="price">22.000đ</span></li>
+          <li><span>Trà tắc xí muội</span><span class="price">22.000đ</span></li>
+          <li><span>Trà dứa đát rim</span><span class="price">25.000đ</span></li>
+          <li><span>Trà sen nhãn</span><span class="price">25.000đ</span></li>
+          <li><span>Trà cam dâu đát</span><span class="price">25.000đ</span></li>
+          <li><span>Trà Lipton (lạnh/nóng)</span><span class="price">25.000đ</span></li>
+        </ul>
+      </div>
+      <div class="menu-card">
+        <span class="tag">Milk tea</span>
+        <h3>Trà sữa</h3>
+        <ul class="menu-list">
+          <li><span>Trà sữa truyền thống</span><span class="price">20.000đ</span></li>
+          <li><span>Trà sữa matcha</span><span class="price">25.000đ</span></li>
+          <li><span>Trà sữa socola</span><span class="price">25.000đ</span></li>
+          <li><span>Trà sữa cafe</span><span class="price">25.000đ</span></li>
+          <li><span>Sữa tươi TCDD</span><span class="price">25.000đ</span></li>
+        </ul>
+      </div>
+      <div class="menu-card">
+        <span class="tag">Fresh juice</span>
+        <h3>Nước ép</h3>
+        <ul class="menu-list">
+          <li><span>Ép thơm</span><span class="price">22.000đ</span></li>
+          <li><span>Ép cam</span><span class="price">22.000đ</span></li>
+          <li><span>Ép cà rốt</span><span class="price">22.000đ</span></li>
+          <li><span>Ép ổi</span><span class="price">22.000đ</span></li>
+          <li><span>Ép thơm + cà rốt</span><span class="price">25.000đ</span></li>
+          <li><span>Dừa trái</span><span class="price">20.000đ</span></li>
+        </ul>
+      </div>
+      <div class="menu-card">
+        <span class="tag">Smoothie</span>
+        <h3>Sinh tố</h3>
+        <ul class="menu-list">
+          <li><span>Sinh tố dâu</span><span class="price">28.000đ</span></li>
+          <li><span>Sinh tố việt quất</span><span class="price">28.000đ</span></li>
+          <li><span>Sinh tố bơ (theo mùa)</span><span class="price">28.000đ</span></li>
+          <li><span>Sinh tố dừa</span><span class="price">28.000đ</span></li>
+          <li><span>Cacao dừa</span><span class="price">30.000đ</span></li>
         </ul>
       </div>
     </div>
-    <p style="text-align:center; margin-top:24px; font-size:0.85rem; color:var(--soil-2); opacity:0.7;">* Giá tham khảo, vui lòng liên hệ quán để cập nhật mới nhất.</p>
+    <p style="text-align:center; margin-top:24px; font-size:0.85rem; color:var(--soil-2); opacity:0.7;">* Giá có thể thay đổi theo thời điểm, vui lòng liên hệ quán để cập nhật mới nhất.</p>
   </div>
 </section>
 

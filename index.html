@@ -183,11 +183,82 @@
     list-style:none; display:grid; grid-template-columns:repeat(2,1fr); gap:0 40px;
   }
   .menu-list li{
-    display:flex; justify-content:space-between; align-items:baseline; gap:14px;
+    display:flex; justify-content:space-between; align-items:center; gap:14px;
     font-size:1.02rem; padding:15px 0; border-bottom:1px dashed var(--line);
     color:var(--soil-2); transition:opacity .15s ease;
   }
   .menu-list li.hide{display:none;}
+  .price-wrap{display:flex; align-items:center; gap:12px;}
+  .add-btn{
+    width:30px; height:30px; border-radius:50%; border:1.5px solid var(--soil);
+    background:var(--paper); color:var(--soil); font-size:1.1rem; line-height:1;
+    cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    transition:all .15s ease;
+  }
+  .add-btn:hover{background:var(--soil); color:var(--cream);}
+  .add-btn.bump{animation:bump .3s ease;}
+  @keyframes bump{ 0%{transform:scale(1);} 40%{transform:scale(1.25); background:var(--cherry); border-color:var(--cherry); color:#fff;} 100%{transform:scale(1);} }
+
+  /* ---------- CART ---------- */
+  .cart-fab{
+    position:fixed; right:22px; bottom:22px; z-index:90;
+    width:58px; height:58px; border-radius:50%; background:var(--soil);
+    color:var(--cream); border:none; cursor:pointer; font-size:1.4rem;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 24px rgba(38,26,18,0.35); transition:transform .2s ease;
+  }
+  .cart-fab:hover{transform:scale(1.06);}
+  .cart-badge{
+    position:absolute; top:-4px; right:-4px; background:var(--cherry); color:#fff;
+    font-size:0.7rem; font-weight:700; min-width:20px; height:20px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center; padding:0 5px;
+  }
+  .cart-overlay{
+    position:fixed; inset:0; background:rgba(38,26,18,0.45); z-index:99;
+    opacity:0; pointer-events:none; transition:opacity .25s ease;
+  }
+  .cart-overlay.open{opacity:1; pointer-events:auto;}
+  .cart-drawer{
+    position:fixed; top:0; right:0; bottom:0; width:min(400px,92vw); z-index:100;
+    background:var(--paper); box-shadow:-12px 0 40px rgba(0,0,0,0.25);
+    transform:translateX(100%); transition:transform .3s ease;
+    display:flex; flex-direction:column;
+  }
+  .cart-drawer.open{transform:translateX(0);}
+  .cart-head{
+    padding:24px 24px 18px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .cart-head h3{font-size:1.3rem; color:var(--soil);}
+  .cart-head .live-dot{
+    display:inline-flex; align-items:center; gap:6px; font-size:0.74rem;
+    color:var(--leaf); font-weight:600; text-transform:uppercase; letter-spacing:0.06em;
+  }
+  .cart-head .live-dot::before{
+    content:''; width:7px; height:7px; border-radius:50%; background:var(--leaf);
+    animation:pulse 1.6s infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  .cart-close{background:none; border:none; font-size:1.3rem; cursor:pointer; color:var(--soil-2);}
+  .cart-items{flex:1; overflow-y:auto; padding:10px 24px;}
+  .cart-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:14px 0; border-bottom:1px dashed var(--line);
+  }
+  .cart-row .ci-name{font-size:0.95rem; color:var(--ink);}
+  .cart-row .ci-price{font-size:0.8rem; color:var(--soil-2); opacity:0.75;}
+  .cart-qty{display:flex; align-items:center; gap:8px;}
+  .cart-qty button{
+    width:26px; height:26px; border-radius:50%; border:1px solid var(--line);
+    background:var(--paper); cursor:pointer; font-size:0.95rem; color:var(--soil);
+  }
+  .cart-qty span{min-width:18px; text-align:center; font-weight:600; color:var(--soil);}
+  .cart-empty{text-align:center; padding:60px 0; color:var(--soil-2); opacity:0.7; font-size:0.95rem;}
+  .cart-foot{padding:20px 24px 26px; border-top:1px solid var(--line);}
+  .cart-total{display:flex; justify-content:space-between; font-size:1.1rem; margin-bottom:16px;}
+  .cart-total .v{font-family:'Fraunces',serif; color:var(--cherry); font-weight:600;}
+  .cart-foot .btn{width:100%; justify-content:center;}
+  .cart-note{font-size:0.78rem; color:var(--soil-2); opacity:0.65; margin-top:10px; text-align:center;}
   @media (max-width:680px){
     .menu-list{grid-template-columns:1fr;}
   }
@@ -333,95 +404,95 @@
     <div class="menu-panel" id="panel-caphe">
       <div class="menu-panel-head"><span class="tag">Coffee</span><h3>Cà phê</h3></div>
       <ul class="menu-list">
-        <li><span>Cà phê đen Sài Gòn</span><span class="price">15.000đ</span></li>
-        <li><span>Cà phê sữa Sài Gòn</span><span class="price">17.000đ</span></li>
-        <li><span>Cà phê đen phin</span><span class="price">15.000đ</span></li>
-        <li><span>Cà phê sữa phin</span><span class="price">17.000đ</span></li>
-        <li><span>Cà phê đen Ý</span><span class="price">15.000đ</span></li>
-        <li><span>Cà phê sữa Ý</span><span class="price">17.000đ</span></li>
-        <li><span>Cà phê muối</span><span class="price">22.000đ</span></li>
-        <li><span>Bạc xỉu (lạnh/nóng)</span><span class="price">22.000đ</span></li>
-        <li><span>Cacao (lạnh/nóng)</span><span class="price">25.000đ</span></li>
-        <li><span>Sữa (đá/nóng)</span><span class="price">16.000đ</span></li>
+        <li data-slug="ca-phe-den-sai-gon" data-name="Cà phê đen Sài Gòn" data-price="15000"><span class="item-name">Cà phê đen Sài Gòn</span><span class="price-wrap"><span class="price">15.000đ</span><button class="add-btn" type="button" aria-label="Thêm Cà phê đen Sài Gòn vào giỏ">+</button></span></li>
+        <li data-slug="ca-phe-sua-sai-gon" data-name="Cà phê sữa Sài Gòn" data-price="17000"><span class="item-name">Cà phê sữa Sài Gòn</span><span class="price-wrap"><span class="price">17.000đ</span><button class="add-btn" type="button" aria-label="Thêm Cà phê sữa Sài Gòn vào giỏ">+</button></span></li>
+        <li data-slug="ca-phe-den-phin" data-name="Cà phê đen phin" data-price="15000"><span class="item-name">Cà phê đen phin</span><span class="price-wrap"><span class="price">15.000đ</span><button class="add-btn" type="button" aria-label="Thêm Cà phê đen phin vào giỏ">+</button></span></li>
+        <li data-slug="ca-phe-sua-phin" data-name="Cà phê sữa phin" data-price="17000"><span class="item-name">Cà phê sữa phin</span><span class="price-wrap"><span class="price">17.000đ</span><button class="add-btn" type="button" aria-label="Thêm Cà phê sữa phin vào giỏ">+</button></span></li>
+        <li data-slug="ca-phe-den-y" data-name="Cà phê đen Ý" data-price="15000"><span class="item-name">Cà phê đen Ý</span><span class="price-wrap"><span class="price">15.000đ</span><button class="add-btn" type="button" aria-label="Thêm Cà phê đen Ý vào giỏ">+</button></span></li>
+        <li data-slug="ca-phe-sua-y" data-name="Cà phê sữa Ý" data-price="17000"><span class="item-name">Cà phê sữa Ý</span><span class="price-wrap"><span class="price">17.000đ</span><button class="add-btn" type="button" aria-label="Thêm Cà phê sữa Ý vào giỏ">+</button></span></li>
+        <li data-slug="ca-phe-muoi" data-name="Cà phê muối" data-price="22000"><span class="item-name">Cà phê muối</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Cà phê muối vào giỏ">+</button></span></li>
+        <li data-slug="bac-xiu-lanh-nong" data-name="Bạc xỉu (lạnh/nóng)" data-price="22000"><span class="item-name">Bạc xỉu (lạnh/nóng)</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Bạc xỉu (lạnh/nóng) vào giỏ">+</button></span></li>
+        <li data-slug="cacao-lanh-nong" data-name="Cacao (lạnh/nóng)" data-price="25000"><span class="item-name">Cacao (lạnh/nóng)</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Cacao (lạnh/nóng) vào giỏ">+</button></span></li>
+        <li data-slug="sua-da-nong" data-name="Sữa (đá/nóng)" data-price="16000"><span class="item-name">Sữa (đá/nóng)</span><span class="price-wrap"><span class="price">16.000đ</span><button class="add-btn" type="button" aria-label="Thêm Sữa (đá/nóng) vào giỏ">+</button></span></li>
       </ul>
     </div>
 
     <div class="menu-panel" id="panel-suachua">
       <div class="menu-panel-head"><span class="tag">Yogurt</span><h3>Sữa chua</h3></div>
       <ul class="menu-list">
-        <li><span>Sữa chua đá</span><span class="price">15.000đ</span></li>
-        <li><span>Sữa chua việt quất</span><span class="price">25.000đ</span></li>
-        <li><span>Sữa chua hạt đát</span><span class="price">25.000đ</span></li>
-        <li><span>Sữa chua Oreo</span><span class="price">25.000đ</span></li>
+        <li data-slug="sua-chua-da" data-name="Sữa chua đá" data-price="15000"><span class="item-name">Sữa chua đá</span><span class="price-wrap"><span class="price">15.000đ</span><button class="add-btn" type="button" aria-label="Thêm Sữa chua đá vào giỏ">+</button></span></li>
+        <li data-slug="sua-chua-viet-quat" data-name="Sữa chua việt quất" data-price="25000"><span class="item-name">Sữa chua việt quất</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Sữa chua việt quất vào giỏ">+</button></span></li>
+        <li data-slug="sua-chua-hat-dat" data-name="Sữa chua hạt đát" data-price="25000"><span class="item-name">Sữa chua hạt đát</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Sữa chua hạt đát vào giỏ">+</button></span></li>
+        <li data-slug="sua-chua-oreo" data-name="Sữa chua Oreo" data-price="25000"><span class="item-name">Sữa chua Oreo</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Sữa chua Oreo vào giỏ">+</button></span></li>
       </ul>
     </div>
 
     <div class="menu-panel" id="panel-soda">
       <div class="menu-panel-head"><span class="tag">Sparkling drink</span><h3>Soda</h3></div>
       <ul class="menu-list">
-        <li><span>Soda dâu</span><span class="price">20.000đ</span></li>
-        <li><span>Soda Việt Quốc</span><span class="price">20.000đ</span></li>
-        <li><span>Soda chanh</span><span class="price">20.000đ</span></li>
+        <li data-slug="soda-dau" data-name="Soda dâu" data-price="20000"><span class="item-name">Soda dâu</span><span class="price-wrap"><span class="price">20.000đ</span><button class="add-btn" type="button" aria-label="Thêm Soda dâu vào giỏ">+</button></span></li>
+        <li data-slug="soda-viet-quoc" data-name="Soda Việt Quốc" data-price="20000"><span class="item-name">Soda Việt Quốc</span><span class="price-wrap"><span class="price">20.000đ</span><button class="add-btn" type="button" aria-label="Thêm Soda Việt Quốc vào giỏ">+</button></span></li>
+        <li data-slug="soda-chanh" data-name="Soda chanh" data-price="20000"><span class="item-name">Soda chanh</span><span class="price-wrap"><span class="price">20.000đ</span><button class="add-btn" type="button" aria-label="Thêm Soda chanh vào giỏ">+</button></span></li>
       </ul>
     </div>
 
     <div class="menu-panel" id="panel-daxay">
       <div class="menu-panel-head"><span class="tag">Blended ice</span><h3>Đá xay</h3></div>
       <ul class="menu-list">
-        <li><span>Matcha đá xay</span><span class="price">28.000đ</span></li>
-        <li><span>Socola đá xay</span><span class="price">28.000đ</span></li>
-        <li><span>Cookie đá xay</span><span class="price">28.000đ</span></li>
-        <li><span>Matcha latte</span><span class="price">25.000đ</span></li>
+        <li data-slug="matcha-da-xay" data-name="Matcha đá xay" data-price="28000"><span class="item-name">Matcha đá xay</span><span class="price-wrap"><span class="price">28.000đ</span><button class="add-btn" type="button" aria-label="Thêm Matcha đá xay vào giỏ">+</button></span></li>
+        <li data-slug="socola-da-xay" data-name="Socola đá xay" data-price="28000"><span class="item-name">Socola đá xay</span><span class="price-wrap"><span class="price">28.000đ</span><button class="add-btn" type="button" aria-label="Thêm Socola đá xay vào giỏ">+</button></span></li>
+        <li data-slug="cookie-da-xay" data-name="Cookie đá xay" data-price="28000"><span class="item-name">Cookie đá xay</span><span class="price-wrap"><span class="price">28.000đ</span><button class="add-btn" type="button" aria-label="Thêm Cookie đá xay vào giỏ">+</button></span></li>
+        <li data-slug="matcha-latte" data-name="Matcha latte" data-price="25000"><span class="item-name">Matcha latte</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Matcha latte vào giỏ">+</button></span></li>
       </ul>
     </div>
 
     <div class="menu-panel" id="panel-tra">
       <div class="menu-panel-head"><span class="tag">Tea</span><h3>Trà</h3></div>
       <ul class="menu-list">
-        <li><span>Chanh xí muội</span><span class="price">22.000đ</span></li>
-        <li><span>Trà trái cây</span><span class="price">22.000đ</span></li>
-        <li><span>Trà đào</span><span class="price">22.000đ</span></li>
-        <li><span>Trà gừng</span><span class="price">25.000đ</span></li>
-        <li><span>Trà vải</span><span class="price">22.000đ</span></li>
-        <li><span>Trà tắc xí muội</span><span class="price">22.000đ</span></li>
-        <li><span>Trà dứa đát rim</span><span class="price">25.000đ</span></li>
-        <li><span>Trà sen nhãn</span><span class="price">25.000đ</span></li>
-        <li><span>Trà cam dâu đất</span><span class="price">25.000đ</span></li>
-        <li><span>Trà Lipton (lạnh/nóng)</span><span class="price">25.000đ</span></li>
+        <li data-slug="chanh-xi-muoi" data-name="Chanh xí muội" data-price="22000"><span class="item-name">Chanh xí muội</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Chanh xí muội vào giỏ">+</button></span></li>
+        <li data-slug="tra-trai-cay" data-name="Trà trái cây" data-price="22000"><span class="item-name">Trà trái cây</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà trái cây vào giỏ">+</button></span></li>
+        <li data-slug="tra-dao" data-name="Trà đào" data-price="22000"><span class="item-name">Trà đào</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà đào vào giỏ">+</button></span></li>
+        <li data-slug="tra-gung" data-name="Trà gừng" data-price="25000"><span class="item-name">Trà gừng</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà gừng vào giỏ">+</button></span></li>
+        <li data-slug="tra-vai" data-name="Trà vải" data-price="22000"><span class="item-name">Trà vải</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà vải vào giỏ">+</button></span></li>
+        <li data-slug="tra-tac-xi-muoi" data-name="Trà tắc xí muội" data-price="22000"><span class="item-name">Trà tắc xí muội</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà tắc xí muội vào giỏ">+</button></span></li>
+        <li data-slug="tra-dua-dat-rim" data-name="Trà dứa đát rim" data-price="25000"><span class="item-name">Trà dứa đát rim</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà dứa đát rim vào giỏ">+</button></span></li>
+        <li data-slug="tra-sen-nhan" data-name="Trà sen nhãn" data-price="25000"><span class="item-name">Trà sen nhãn</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà sen nhãn vào giỏ">+</button></span></li>
+        <li data-slug="tra-cam-dau-dat" data-name="Trà cam dâu đất" data-price="25000"><span class="item-name">Trà cam dâu đất</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà cam dâu đất vào giỏ">+</button></span></li>
+        <li data-slug="tra-lipton-lanh-nong" data-name="Trà Lipton (lạnh/nóng)" data-price="25000"><span class="item-name">Trà Lipton (lạnh/nóng)</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà Lipton (lạnh/nóng) vào giỏ">+</button></span></li>
       </ul>
     </div>
 
     <div class="menu-panel" id="panel-trasua">
       <div class="menu-panel-head"><span class="tag">Milk tea</span><h3>Trà sữa</h3></div>
       <ul class="menu-list">
-        <li><span>Trà sữa truyền thống</span><span class="price">20.000đ</span></li>
-        <li><span>Trà sữa matcha</span><span class="price">25.000đ</span></li>
-        <li><span>Trà sữa socola</span><span class="price">25.000đ</span></li>
-        <li><span>Trà sữa cafe</span><span class="price">25.000đ</span></li>
-        <li><span>Sữa tươi TCĐD</span><span class="price">25.000đ</span></li>
+        <li data-slug="tra-sua-truyen-thong" data-name="Trà sữa truyền thống" data-price="20000"><span class="item-name">Trà sữa truyền thống</span><span class="price-wrap"><span class="price">20.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà sữa truyền thống vào giỏ">+</button></span></li>
+        <li data-slug="tra-sua-matcha" data-name="Trà sữa matcha" data-price="25000"><span class="item-name">Trà sữa matcha</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà sữa matcha vào giỏ">+</button></span></li>
+        <li data-slug="tra-sua-socola" data-name="Trà sữa socola" data-price="25000"><span class="item-name">Trà sữa socola</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà sữa socola vào giỏ">+</button></span></li>
+        <li data-slug="tra-sua-cafe" data-name="Trà sữa cafe" data-price="25000"><span class="item-name">Trà sữa cafe</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Trà sữa cafe vào giỏ">+</button></span></li>
+        <li data-slug="sua-tuoi-tcdd" data-name="Sữa tươi TCĐD" data-price="25000"><span class="item-name">Sữa tươi TCĐD</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Sữa tươi TCĐD vào giỏ">+</button></span></li>
       </ul>
     </div>
 
     <div class="menu-panel" id="panel-nuocep">
       <div class="menu-panel-head"><span class="tag">Fresh juice</span><h3>Nước ép</h3></div>
       <ul class="menu-list">
-        <li><span>Ép thơm</span><span class="price">22.000đ</span></li>
-        <li><span>Ép cam</span><span class="price">22.000đ</span></li>
-        <li><span>Ép cà rốt</span><span class="price">22.000đ</span></li>
-        <li><span>Ép ổi</span><span class="price">22.000đ</span></li>
-        <li><span>Ép thơm + cà rốt</span><span class="price">25.000đ</span></li>
-        <li><span>Dừa trái</span><span class="price">20.000đ</span></li>
+        <li data-slug="ep-thom" data-name="Ép thơm" data-price="22000"><span class="item-name">Ép thơm</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Ép thơm vào giỏ">+</button></span></li>
+        <li data-slug="ep-cam" data-name="Ép cam" data-price="22000"><span class="item-name">Ép cam</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Ép cam vào giỏ">+</button></span></li>
+        <li data-slug="ep-ca-rot" data-name="Ép cà rốt" data-price="22000"><span class="item-name">Ép cà rốt</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Ép cà rốt vào giỏ">+</button></span></li>
+        <li data-slug="ep-oi" data-name="Ép ổi" data-price="22000"><span class="item-name">Ép ổi</span><span class="price-wrap"><span class="price">22.000đ</span><button class="add-btn" type="button" aria-label="Thêm Ép ổi vào giỏ">+</button></span></li>
+        <li data-slug="ep-thom-ca-rot" data-name="Ép thơm + cà rốt" data-price="25000"><span class="item-name">Ép thơm + cà rốt</span><span class="price-wrap"><span class="price">25.000đ</span><button class="add-btn" type="button" aria-label="Thêm Ép thơm + cà rốt vào giỏ">+</button></span></li>
+        <li data-slug="dua-trai" data-name="Dừa trái" data-price="20000"><span class="item-name">Dừa trái</span><span class="price-wrap"><span class="price">20.000đ</span><button class="add-btn" type="button" aria-label="Thêm Dừa trái vào giỏ">+</button></span></li>
       </ul>
     </div>
 
     <div class="menu-panel" id="panel-sinhto">
       <div class="menu-panel-head"><span class="tag">Smoothie</span><h3>Sinh tố</h3></div>
       <ul class="menu-list">
-        <li><span>Sinh tố dâu</span><span class="price">28.000đ</span></li>
-        <li><span>Sinh tố việt quất</span><span class="price">28.000đ</span></li>
-        <li><span>Sinh tố bơ (theo mùa)</span><span class="price">28.000đ</span></li>
-        <li><span>Sinh tố dừa</span><span class="price">28.000đ</span></li>
-        <li><span>Cacao dừa</span><span class="price">30.000đ</span></li>
+        <li data-slug="sinh-to-dau" data-name="Sinh tố dâu" data-price="28000"><span class="item-name">Sinh tố dâu</span><span class="price-wrap"><span class="price">28.000đ</span><button class="add-btn" type="button" aria-label="Thêm Sinh tố dâu vào giỏ">+</button></span></li>
+        <li data-slug="sinh-to-viet-quat" data-name="Sinh tố việt quất" data-price="28000"><span class="item-name">Sinh tố việt quất</span><span class="price-wrap"><span class="price">28.000đ</span><button class="add-btn" type="button" aria-label="Thêm Sinh tố việt quất vào giỏ">+</button></span></li>
+        <li data-slug="sinh-to-bo-theo-mua" data-name="Sinh tố bơ (theo mùa)" data-price="28000"><span class="item-name">Sinh tố bơ (theo mùa)</span><span class="price-wrap"><span class="price">28.000đ</span><button class="add-btn" type="button" aria-label="Thêm Sinh tố bơ (theo mùa) vào giỏ">+</button></span></li>
+        <li data-slug="sinh-to-dua" data-name="Sinh tố dừa" data-price="28000"><span class="item-name">Sinh tố dừa</span><span class="price-wrap"><span class="price">28.000đ</span><button class="add-btn" type="button" aria-label="Thêm Sinh tố dừa vào giỏ">+</button></span></li>
+        <li data-slug="cacao-dua" data-name="Cacao dừa" data-price="30000"><span class="item-name">Cacao dừa</span><span class="price-wrap"><span class="price">30.000đ</span><button class="add-btn" type="button" aria-label="Thêm Cacao dừa vào giỏ">+</button></span></li>
       </ul>
     </div>
 
@@ -508,6 +579,30 @@
   <div class="wrap"><b>H&amp;H Coffee</b> — Tuy An Nam, Đắk Lắk · Mở cửa mỗi ngày từ 05:00</div>
 </footer>
 
+<!-- Giỏ hàng dùng chung, real-time qua Firebase -->
+<button class="cart-fab" id="cartFab" aria-label="Mở giỏ hàng">
+  🛒<span class="cart-badge" id="cartBadge" style="display:none;">0</span>
+</button>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <div>
+      <h3>Giỏ hàng chung</h3>
+      <span class="live-dot">Đồng bộ trực tiếp</span>
+    </div>
+    <button class="cart-close" id="cartClose" aria-label="Đóng">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p class="cart-empty">Giỏ hàng đang trống — bấm dấu "+" cạnh món bạn muốn order.</p>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>Tổng cộng</span><span class="v" id="cartTotal">0đ</span></div>
+    <a class="btn btn-solid" href="tel:+84962338679">Gọi quán để đặt: 0962 338 679</a>
+    <div class="cart-note">Giỏ hàng này hiển thị chung cho mọi người đang xem trang — dùng để gom order trước khi gọi quán.</div>
+  </div>
+</div>
+
 <script>
   (function(){
     var input = document.getElementById('menuSearchInput');
@@ -538,6 +633,117 @@
       emptyMsg.classList.toggle('show', !anyVisible);
     });
   })();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, doc, onSnapshot, runTransaction
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA4xgNRkfnXZswuhXT-pmtSDepsuLcgjR8",
+    authDomain: "hvsh-4f44c.firebaseapp.com",
+    projectId: "hvsh-4f44c",
+    storageBucket: "hvsh-4f44c.firebasestorage.app",
+    messagingSenderId: "568622257970",
+    appId: "1:568622257970:web:4b38e2c8405f756d7c692b",
+    measurementId: "G-ZQD7WGB0X2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const cartRef = doc(db, "carts", "hh-coffee-shared-cart");
+
+  const fab = document.getElementById('cartFab');
+  const badge = document.getElementById('cartBadge');
+  const overlay = document.getElementById('cartOverlay');
+  const drawer = document.getElementById('cartDrawer');
+  const closeBtn = document.getElementById('cartClose');
+  const itemsBox = document.getElementById('cartItems');
+  const totalEl = document.getElementById('cartTotal');
+
+  function fmt(n){ return n.toLocaleString('vi-VN') + 'đ'; }
+
+  function openCart(){ overlay.classList.add('open'); drawer.classList.add('open'); }
+  function closeCart(){ overlay.classList.remove('open'); drawer.classList.remove('open'); }
+  fab.addEventListener('click', openCart);
+  closeBtn.addEventListener('click', closeCart);
+  overlay.addEventListener('click', closeCart);
+
+  // Lắng nghe real-time: mọi thiết bị mở trang đều thấy cùng 1 giỏ hàng
+  onSnapshot(cartRef, (snap) => {
+    const data = snap.exists() ? snap.data() : {};
+    const items = data.items || {};
+    const keys = Object.keys(items);
+
+    let totalQty = 0, totalPrice = 0;
+
+    if(keys.length === 0){
+      itemsBox.innerHTML = '<p class="cart-empty">Giỏ hàng đang trống — bấm dấu "+" cạnh món bạn muốn order.</p>';
+    } else {
+      itemsBox.innerHTML = keys.map(function(k){
+        const it = items[k];
+        totalQty += it.qty;
+        totalPrice += it.qty * it.price;
+        return (
+          '<div class="cart-row" data-slug="'+k+'">' +
+            '<div><div class="ci-name">'+it.name+'</div><div class="ci-price">'+fmt(it.price)+' / món</div></div>' +
+            '<div class="cart-qty">' +
+              '<button class="dec" data-slug="'+k+'">−</button>' +
+              '<span>'+it.qty+'</span>' +
+              '<button class="inc" data-slug="'+k+'" data-name="'+it.name+'" data-price="'+it.price+'">+</button>' +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    totalEl.textContent = fmt(totalPrice);
+    if(totalQty > 0){
+      badge.style.display = 'flex';
+      badge.textContent = totalQty;
+    } else {
+      badge.style.display = 'none';
+    }
+
+    // Gắn sự kiện +/- trong giỏ hàng
+    itemsBox.querySelectorAll('.inc').forEach(function(b){
+      b.addEventListener('click', function(){ changeQty(b.dataset.slug, b.dataset.name, Number(b.dataset.price), 1); });
+    });
+    itemsBox.querySelectorAll('.dec').forEach(function(b){
+      b.addEventListener('click', function(){ changeQty(b.dataset.slug, null, null, -1); });
+    });
+  });
+
+  async function changeQty(slug, name, price, delta){
+    await runTransaction(db, async (tx) => {
+      const snap = await tx.get(cartRef);
+      const data = snap.exists() ? snap.data() : { items: {} };
+      const items = data.items || {};
+      const current = items[slug] || { name: name, price: price, qty: 0 };
+      let newQty = current.qty + delta;
+      if(newQty <= 0){
+        delete items[slug];
+      } else {
+        items[slug] = { name: current.name || name, price: current.price || price, qty: newQty };
+      }
+      tx.set(cartRef, { items: items }, { merge: false });
+    });
+  }
+
+  // Gắn nút "+" trên từng món thực đơn
+  document.querySelectorAll('.menu-list .add-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const li = btn.closest('li');
+      const slug = li.dataset.slug;
+      const name = li.dataset.name;
+      const price = Number(li.dataset.price);
+      btn.classList.remove('bump'); void btn.offsetWidth; btn.classList.add('bump');
+      changeQty(slug, name, price, 1);
+      openCart();
+    });
+  });
 </script>
 
 </body>

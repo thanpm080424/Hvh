@@ -146,22 +146,30 @@
   .stat-row .label{font-size:0.92rem; color:rgba(243,234,217,0.7);}
   .stat-row .value{font-family:'Fraunces',serif; font-size:1.5rem; color:var(--cream);}
 
-  /* ---------- MENU TABS ---------- */
-  .menu-tabs{
-    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px;
+  /* ---------- MENU SEARCH ---------- */
+  .menu-search{
+    position:relative; max-width:480px; margin-bottom:48px;
   }
-  .menu-tab{
-    padding:11px 22px; border-radius:100px; border:1px solid var(--line);
-    background:var(--paper); color:var(--soil-2); font-size:0.92rem; font-weight:500;
-    cursor:pointer; transition:all .2s ease; font-family:'Be Vietnam Pro', sans-serif;
+  .menu-search input{
+    width:100%; padding:16px 50px 16px 22px; border-radius:100px;
+    border:1.5px solid var(--soil); background:var(--paper);
+    font-family:'Be Vietnam Pro', sans-serif; font-size:1rem; color:var(--ink);
+    outline:none; transition:border-color .2s ease, box-shadow .2s ease;
   }
-  .menu-tab:hover{border-color:var(--cherry); color:var(--cherry);}
-  .menu-tab.active{
-    background:var(--soil); border-color:var(--soil); color:var(--cream);
+  .menu-search input:focus{box-shadow:0 0 0 3px rgba(168,51,42,0.15);}
+  .menu-search .ic{
+    position:absolute; right:20px; top:50%; transform:translateY(-50%);
+    font-size:1.1rem; opacity:0.6; pointer-events:none;
   }
-  .menu-panel{display:none;}
-  .menu-panel.active{display:block; animation:fadein .35s ease;}
-  @keyframes fadein{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+  .menu-search-hint{
+    margin-top:10px; font-size:0.84rem; color:var(--soil-2); opacity:0.7;
+  }
+  .menu-empty{
+    display:none; text-align:center; padding:48px 0; color:var(--soil-2);
+  }
+  .menu-empty.show{display:block;}
+  .menu-panel{margin-bottom:48px;}
+  .menu-panel.hide{display:none;}
   .menu-panel-head{
     display:flex; align-items:baseline; gap:14px; margin-bottom:24px;
     padding-bottom:16px; border-bottom:2px solid var(--soil);
@@ -177,8 +185,9 @@
   .menu-list li{
     display:flex; justify-content:space-between; align-items:baseline; gap:14px;
     font-size:1.02rem; padding:15px 0; border-bottom:1px dashed var(--line);
-    color:var(--soil-2);
+    color:var(--soil-2); transition:opacity .15s ease;
   }
+  .menu-list li.hide{display:none;}
   @media (max-width:680px){
     .menu-list{grid-template-columns:1fr;}
   }
@@ -238,8 +247,6 @@
     .hamburger{display:flex;}
     .about-grid, .loc-grid{grid-template-columns:1fr; gap:36px;}
     .info-grid{grid-template-columns:1fr; gap:32px;}
-    .menu-tabs{gap:8px;}
-    .menu-tab{padding:9px 16px; font-size:0.85rem;}
     section{padding:72px 0;}
     .hero{align-items:flex-end;}
     .hero-inner{padding-bottom:56px;}
@@ -315,18 +322,15 @@
     </div>
   </div>
   <div class="wrap" style="padding:0 28px;">
-    <div class="menu-tabs" role="tablist">
-      <button class="menu-tab active" data-target="panel-caphe">Cà phê</button>
-      <button class="menu-tab" data-target="panel-suachua">Sữa chua</button>
-      <button class="menu-tab" data-target="panel-soda">Soda</button>
-      <button class="menu-tab" data-target="panel-daxay">Đá xay</button>
-      <button class="menu-tab" data-target="panel-tra">Trà</button>
-      <button class="menu-tab" data-target="panel-trasua">Trà sữa</button>
-      <button class="menu-tab" data-target="panel-nuocep">Nước ép</button>
-      <button class="menu-tab" data-target="panel-sinhto">Sinh tố</button>
+    <div class="menu-search">
+      <input type="text" id="menuSearchInput" placeholder="Tìm món bạn thích — vd: matcha, trà, sinh tố..." autocomplete="off">
+      <span class="ic">🔍</span>
+      <div class="menu-search-hint">Gõ tên món để lọc nhanh, hoặc cuộn xuống xem trọn thực đơn theo từng nhóm.</div>
     </div>
 
-    <div class="menu-panel active" id="panel-caphe">
+    <p class="menu-empty" id="menuEmpty">Không tìm thấy món nào khớp — thử từ khoá khác nhé.</p>
+
+    <div class="menu-panel" id="panel-caphe">
       <div class="menu-panel-head"><span class="tag">Coffee</span><h3>Cà phê</h3></div>
       <ul class="menu-list">
         <li><span>Cà phê đen Sài Gòn</span><span class="price">15.000đ</span></li>
@@ -505,14 +509,35 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.menu-tab').forEach(function(tab){
-    tab.addEventListener('click', function(){
-      document.querySelectorAll('.menu-tab').forEach(function(t){ t.classList.remove('active'); });
-      document.querySelectorAll('.menu-panel').forEach(function(p){ p.classList.remove('active'); });
-      tab.classList.add('active');
-      document.getElementById(tab.dataset.target).classList.add('active');
+  (function(){
+    var input = document.getElementById('menuSearchInput');
+    var panels = document.querySelectorAll('.menu-panel');
+    var emptyMsg = document.getElementById('menuEmpty');
+
+    function normalize(str){
+      return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g,'d');
+    }
+
+    input.addEventListener('input', function(){
+      var q = normalize(input.value.trim());
+      var anyVisible = false;
+
+      panels.forEach(function(panel){
+        var items = panel.querySelectorAll('.menu-list li');
+        var panelHasMatch = false;
+        items.forEach(function(li){
+          var text = normalize(li.textContent);
+          var match = q === '' || text.indexOf(q) !== -1;
+          li.classList.toggle('hide', !match);
+          if(match) panelHasMatch = true;
+        });
+        panel.classList.toggle('hide', !panelHasMatch);
+        if(panelHasMatch) anyVisible = true;
+      });
+
+      emptyMsg.classList.toggle('show', !anyVisible);
     });
-  });
+  })();
 </script>
 
 </body>

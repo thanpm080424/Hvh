@@ -259,6 +259,15 @@
   .cart-total .v{font-family:'Fraunces',serif; color:var(--cherry); font-weight:600;}
   .cart-foot .btn{width:100%; justify-content:center;}
   .cart-note{font-size:0.78rem; color:var(--soil-2); opacity:0.65; margin-top:10px; text-align:center;}
+
+  .add-toast{
+    position:fixed; left:50%; bottom:92px; transform:translateX(-50%) translateY(12px);
+    background:var(--soil); color:var(--cream); padding:11px 20px; border-radius:100px;
+    font-size:0.88rem; font-weight:500; z-index:95; opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease; box-shadow:0 8px 20px rgba(0,0,0,0.25);
+    white-space:nowrap;
+  }
+  .add-toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   @media (max-width:680px){
     .menu-list{grid-template-columns:1fr;}
   }
@@ -635,6 +644,8 @@
   })();
 </script>
 
+<div class="add-toast" id="addToast"></div>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
@@ -662,6 +673,14 @@
   const closeBtn = document.getElementById('cartClose');
   const itemsBox = document.getElementById('cartItems');
   const totalEl = document.getElementById('cartTotal');
+  const toast = document.getElementById('addToast');
+  let toastTimer;
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 1400);
+  }
 
   function fmt(n){ return n.toLocaleString('vi-VN') + 'đ'; }
 
@@ -741,7 +760,7 @@
       const price = Number(li.dataset.price);
       btn.classList.remove('bump'); void btn.offsetWidth; btn.classList.add('bump');
       changeQty(slug, name, price, 1);
-      openCart();
+      showToast('Đã thêm: ' + name);
     });
   });
 </script>

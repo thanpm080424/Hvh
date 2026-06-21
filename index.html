@@ -260,6 +260,23 @@
   .cart-foot .btn{width:100%; justify-content:center;}
   .cart-note{font-size:0.78rem; color:var(--soil-2); opacity:0.65; margin-top:10px; text-align:center;}
 
+  .pay-toggle{
+    width:100%; padding:14px 20px; border-radius:100px; border:none;
+    background:var(--cherry); color:#fff; font-weight:600; font-size:0.96rem;
+    cursor:pointer; transition:background .2s ease;
+  }
+  .pay-toggle:hover{background:#8a2a22;}
+  .pay-toggle:disabled{background:var(--line); color:var(--soil-2); cursor:not-allowed;}
+  .pay-box{
+    display:none; margin-top:18px; border:1px solid var(--line); border-radius:10px;
+    padding:18px; background:var(--cream); text-align:center;
+  }
+  .pay-box.open{display:block;}
+  .pay-box img{width:170px; height:170px; border-radius:8px; background:#fff; padding:6px;}
+  .pay-bank{font-size:0.84rem; color:var(--soil-2); margin-top:12px; line-height:1.5;}
+  .pay-bank b{color:var(--soil); display:block; font-size:1rem;}
+  .pay-amount{font-family:'Fraunces',serif; font-size:1.3rem; color:var(--cherry); margin-top:8px;}
+
   .add-toast{
     position:fixed; left:50%; bottom:92px; transform:translateX(-50%) translateY(12px);
     background:var(--soil); color:var(--cream); padding:11px 20px; border-radius:100px;
@@ -607,8 +624,16 @@
   </div>
   <div class="cart-foot">
     <div class="cart-total"><span>Tổng cộng</span><span class="v" id="cartTotal">0đ</span></div>
-    <a class="btn btn-solid" href="tel:+84962338679">Gọi quán để đặt: 0962 338 679</a>
-    <div class="cart-note">Giỏ hàng này hiển thị chung cho mọi người đang xem trang — dùng để gom order trước khi gọi quán.</div>
+    <button class="pay-toggle" id="payToggle" disabled>Thanh toán bằng QR chuyển khoản</button>
+    <div class="pay-box" id="payBox">
+      <img id="payQrImg" src="" alt="Mã QR thanh toán MB Bank">
+      <div class="pay-amount" id="payAmount">0đ</div>
+      <div class="pay-bank">
+        <b>MB Bank — 0327568401</b>
+        Chủ tài khoản: P THAN<br>Quét mã bằng app ngân hàng bất kỳ để chuyển khoản đúng số tiền.
+      </div>
+    </div>
+    <div class="cart-note">Giỏ hàng này hiển thị chung cho mọi người đang xem trang — dùng để gom order rồi thanh toán.</div>
   </div>
 </div>
 
@@ -674,6 +699,10 @@
   const itemsBox = document.getElementById('cartItems');
   const totalEl = document.getElementById('cartTotal');
   const toast = document.getElementById('addToast');
+  const payToggle = document.getElementById('payToggle');
+  const payBox = document.getElementById('payBox');
+  const payQrImg = document.getElementById('payQrImg');
+  const payAmount = document.getElementById('payAmount');
   let toastTimer;
   function showToast(msg){
     toast.textContent = msg;
@@ -689,6 +718,7 @@
   fab.addEventListener('click', openCart);
   closeBtn.addEventListener('click', closeCart);
   overlay.addEventListener('click', closeCart);
+  payToggle.addEventListener('click', function(){ payBox.classList.toggle('open'); });
 
   // Lắng nghe real-time: mọi thiết bị mở trang đều thấy cùng 1 giỏ hàng
   onSnapshot(cartRef, (snap) => {
@@ -722,8 +752,14 @@
     if(totalQty > 0){
       badge.style.display = 'flex';
       badge.textContent = totalQty;
+      payToggle.disabled = false;
+      const note = encodeURIComponent('HH Coffee don hang');
+      payQrImg.src = 'https://img.vietqr.io/image/970422-0327568401-compact2.png?amount=' + totalPrice + '&addInfo=' + note + '&accountName=' + encodeURIComponent('P THAN');
+      payAmount.textContent = fmt(totalPrice);
     } else {
       badge.style.display = 'none';
+      payToggle.disabled = true;
+      payBox.classList.remove('open');
     }
 
     // Gắn sự kiện +/- trong giỏ hàng
